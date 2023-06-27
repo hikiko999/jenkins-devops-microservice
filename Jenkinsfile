@@ -49,7 +49,7 @@ pipeline {
 				// old
 				//"docker build -t hikiko999/currency-exchange-devops:$env.BUILD_TAG"
 				script {
-					dockerImage = docker.build("hikiko999/currency-exchange-devops:{$env.BUILD_TAG}")
+					dockerImage = docker.build("hikiko999/currency-exchange-devops:${env.BUILD_TAG}")
 				}
 			}
 		}
@@ -57,9 +57,10 @@ pipeline {
 			steps {
 				script {
 					// (repo,id)
-					docker.withRegistry('','dockerhub')
-					dockerImage.push();
-					dockerImage.push('latest');
+					docker.withRegistry('','dockerhub') {
+						dockerImage.push();
+						dockerImage.push('latest');
+					}
 				}
 			}
 		}
