@@ -38,6 +38,31 @@ pipeline {
 				sh "mvn failsafe:integration-test failsafe:verify"
 			}
 		}
+		//build jar file
+		stage('Package') {
+			steps {
+				sh "mvn package -DskipTests"
+			}
+		}
+		stage('Build Docker Image') {
+			steps {
+				// old
+				//"docker build -t hikiko999/currency-exchange-devops:$env.BUILD_TAG"
+				script {
+					dockerImage = docker.build("hikiko999/currency-exchange-devops:{$env.BUILD_TAG}")
+				}
+			}
+		}
+		stage('Push Docker Image') {
+			steps {
+				script {
+					// (repo,id)
+					docker.withRegistry('','dockerhub')
+					dockerImage.push();
+					dockerImage.push('latest');
+				}
+			}
+		}
 		
 	} 
 		
