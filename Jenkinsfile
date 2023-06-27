@@ -15,17 +15,19 @@ pipeline {
 			steps {
 				echo "Integration Test"
 			}
-		} 
-		post {
-			always {
-				echo "I'm Awesome. I run always"
-			}
-			success {
-				echo "I run when succes"
-			}
-			failure {
-				echo "I run when fail"
-			}
+		}
+		
+	} 
+		
+	post {
+		always {
+			echo "I'm Awesome. I run always"
+		}
+		success {
+			echo "I run when succes"
+		}
+		failure {
+			echo "I run when fail"
 		}
 	}
 }
